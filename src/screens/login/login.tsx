@@ -1,7 +1,10 @@
 import { Grid } from "@mui/material";
 import { useCallback, useState, useEffect } from "react";
-import { Wrapper, Input, Button, Error } from "./login.styled";
+import { Wrapper } from "./login.styled";
 import * as yup from 'yup';
+import { Input } from "../../components/input/input";
+import { Button } from "../../components/button/button";
+import { Error } from "../../components/form-error/form-error";
 
 export default function Login () {
     const [error, setError] = useState([])
@@ -9,7 +12,6 @@ export default function Login () {
         email: "",
         password: ""
     })
-    const [loading, setLoading] = useState(false)
 
     const handleChanges = useCallback(( { target }: any ) => {
         console.log(target.value)
@@ -41,7 +43,7 @@ export default function Login () {
 
     return (
         <Wrapper container justifyContent="center" alignContent="center">
-            <Grid item={true} xs={2} container justifyContent="center" alignContent="center">
+            <Grid item={true} xs={2} >
                 <Input 
                     type="email" 
                     name="email" 
