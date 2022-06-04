@@ -1,5 +1,3 @@
-import { layout } from "./layout"
-
 const core = {
     primary: "#E13A13",
     secondary: "#1A1A1A",
