@@ -5,41 +5,50 @@ import * as yup from 'yup';
 import { Input } from "../../components/input/input";
 import { Button } from "../../components/button/button";
 import { Error } from "../../components/form-error/form-error";
+import {useDispatch, useSelector} from "react-redux"
+import { authenticated } from "../../store/user/user.selector";
+import userSlice from "../../store/user/user.slice";
 
 export default function Login () {
-    const [error, setError] = useState([])
+    const [error, setError] = useState('')
     const [data, setData] = useState({
         email: "",
         password: ""
     })
 
-    const handleChanges = useCallback(( { target }: any ) => {
-        console.log(target.value)
+    const dispatch = useDispatch()
 
+    const userAuthenticated = useSelector(authenticated)
+
+    const handleChanges = useCallback(( { target }: any ) => {
         setData(prevData => ({
             ...prevData,
             [target.name]: target.value
         }))
     }, [setData])
 
-    const handleSend = useCallback( async () => {
+    const handleSend = useCallback(async () => {
         try {
             const schema = yup.object().shape({
                 email: yup.string().required().email(),
                 password: yup.string().required(),
             })
 
-            await schema.validate(data)
-        } catch (e: any) {
-            setError(e.errors[0])
+            await schema.validate(data);
+
+            setError('')
+
+            dispatch(userSlice.actions.authenticated(true));
+        } catch (error: any) {
+            setError(error.errors[0])
         }
+
     }, [data])
 
     useEffect(() => {
-        yup.object().shape({
-            
-        })
-    }, [])
+        console.log(userAuthenticated)
+
+    }, [userAuthenticated])
 
     return (
         <Wrapper container justifyContent="center" alignContent="center">
